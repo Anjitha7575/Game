@@ -92,8 +92,11 @@ var gameApp = angular.module('vidTApp.firstPhase.firstPhaseController',[]).contr
 
 
     //////////////////////////////////////////////////////////////////////........................Game.....................////////////////////////////////////////////
-
+                        W = 800;
+                        H = 600;
                         var canvas = document.getElementById("canvas");
+                        canvas.width = W;
+                        canvas.height = H;
                         if(canvas) {
                             var ctx = canvas.getContext("2d");
                             var counter = 30;
@@ -211,8 +214,11 @@ var gameApp = angular.module('vidTApp.firstPhase.firstPhaseController',[]).contr
                                 // clear the canvas
                                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                                 var img = new Image;
-                                img.src = $scope.imgs[1].url;
-                                ctx.drawImage(img, block.x, block.y, block.width, block.height);
+                                img.src = "assets/images/s3.png";
+                                //img.onload = function(){
+                                    ctx.drawImage(img, block.x, block.y, block.width, block.height);
+                                 // }
+                                
 
                                 var img1 = new Image;
 
@@ -228,6 +234,18 @@ var gameApp = angular.module('vidTApp.firstPhase.firstPhaseController',[]).contr
                                 ctx.fillText("Score: " + score, 10, 15);
                             }
                         }
+                        var scaleFactor= 1;
+                        window.addEventListener('resize',
+                        function(evt) {
+                        // calculate a scale factor to keep a correct aspect ratio.
+                        scaleFactor= Math.min(window.innerWidth/W, window.innerHeight/H);
+                        // make the canvas conform to the new scaled size.
+                        canvas.width = W*scaleFactor;
+                        canvas.height = H*scaleFactor;
+                        // get the scaled canvas context.
+                        ctx = canvas.getContext( '2d' );
+                        },
+                        false);
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

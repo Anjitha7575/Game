@@ -17,8 +17,8 @@
     </div>
     <div id="photoBar" ng-hide="menu">
         <div ng-include src="'modules/FirstPhase/view/headerStart.html'" class="tab-content"></div>
-        <div ng-hide="gameOn">
-            <div ng-show="imgs.length < 2 || imgs == undefined">
+
+            <!-- <div ng-show="imgs.length < 2 || imgs == undefined">
                             <div class="row">
                             <canvas id="canvas1" class="lip-shape" ng-hide="filepreview">
                                 <draw-circle ></draw-circle>
@@ -48,8 +48,9 @@
                                 </label>
                             </div>
                             </div>
-            </div>
-            <div ng-hide="imgs.length < 2" ng-if="imgs.length >= 2" class="show-pics">
+            </div> --> 
+        <div ng-hide="gameOn">
+            <div  class="show-pics">
                 <div>
                     <span><img ng-src="{{imgs[0].url}}" class="sm-imgs"></span>
                     <span><img ng-src="{{imgs[1].url}}" class="sm-imgs"></span>
@@ -58,9 +59,13 @@
                 <div class="playNow" ng-click="playGame()"></div>
             </div>
         </div>
-        <div ng-show="gameOn" >
-            <canvas id="canvas" width=350 height=300 style="border: 1px dashed #000000;margin: 10px;"></canvas>
+        <div ng-show="gameOn" class="col-sm-12">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+            <canvas id="canvas"  style="border: 1px dashed #000000;margin: 10px;"></canvas>
             <span id="count">30</span> seconds
+            </div>
+            <div class="col-sm-2"></div>
         </div>
     </div>
 </div>

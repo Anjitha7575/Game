@@ -13,14 +13,14 @@ body{
 
 }
 
-@media (max-width: 767px) {
+/*@media (max-width: 767px) {
     body{
         background-image: url("/assets/images/sunray.png");
         background-repeat:no-repeat;
         background-size: cover;
         background-position: center;
     }
-}
+}*/
 
 ul,ol{
     margin: 0;
