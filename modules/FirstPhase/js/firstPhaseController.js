@@ -17,87 +17,13 @@ var gameApp = angular.module('vidTApp.firstPhase.firstPhaseController',[]).contr
             animate();
         };
     }
-
-    $scope.$watch('file', function(newfile, oldfile) {
-        if(angular.equals(newfile, oldfile) ){
-            return;
-        }
-        firstPhaseService.upload(newfile).then(function(res){
-            console.log("result", res);
-        })
-        $scope.imgs.push({url:$scope.filepreview});
-    });
-
-    ////////////////////////////////////////////////////////////////Taking Photo from Camera(Not working)////////////////////////////////////////////////////////////////////////////////////////
-
-    //$scope.snapshot = function() {
-    //    if (localMediaStream) {
-    //        ctx.drawImage(video, 0, 0);
-    //        var img = document.getElementById('CaptureImage');
-    //        // "image/webp" works in Chrome 18. In other browsers, this will fall back to image/png.
-    //        img.src = canvas.toDataURL('image/webp');
-    //    }
-    //}
-    //
-    //$scope.hasGetUserMedia = function() {
-    //    // Note: Opera builds are unprefixed.
-    //    return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
-    //    navigator.mozGetUserMedia || navigator.msGetUserMedia);
-    //}
-    //
-    //$scope.onFailSoHard = function(){
-    //
-    //}
-    //
-    //$scope.start = function() {
-    //    $scope.showVid = false;
-    //    if ( $scope.hasGetUserMedia()) {
-    //        if (navigator.webkitGetUserMedia)
-    //            navigator.getUserMedia = navigator.webkitGetUserMedia;
-    //        //var getUserMedia = navigator.webkitGetUserMedia || navigator.getUserMedia;
-    //
-    //
-    //        //var gumOptions = { video: true, toString: function () { return 'video'; } };
-    //        if (navigator.getUserMedia) {
-    //            navigator.getUserMedia({ video: true, audio: true }, function (stream) {
-    //                if (navigator.webkitGetUserMedia) {
-    //                    video.src = window.webkitURL.createObjectURL(stream);
-    //                } else {
-    //                    video.src = stream; // Opera
-    //                }
-    //                localMediaStream = stream;
-    //            }, $scope.onFailSoHard);
-    //        } else {
-    //            video.src = 'somevideo.webm'; // fallback.
-    //        }
-    //    }
-    //}
-    //
-    //$scope.stop = function() {
-    //    video = document.getElementById('sourcevid');
-    //    video.src = "";
-    //}
-    //
-    //$scope.ResizeCanvas = function() {
-    //    canvas.height = video.videoHeight;
-    //    canvas.width = video.videoWidth;
-    //}
-    //
-    //$scope.ctx = null;
-    //$scope.canvas = document.getElementById("tmpImage");
-    //$scope.localMediaStream = null;
-    //var video = document.querySelector('video');
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+  
     //////////////////////////////////////////////////////////////////////........................Game.....................////////////////////////////////////////////
-                        W = 800;
-                        H = 600;
+                        W = document.getElementById('canvas').width;
+                        H = document.getElementById('canvas').height;
                         var canvas = document.getElementById("canvas");
                         canvas.width = W;
                         canvas.height = H;
-                        if(canvas) {
                             var ctx = canvas.getContext("2d");
                             var counter = 30;
 
@@ -146,19 +72,41 @@ var gameApp = angular.module('vidTApp.firstPhase.firstPhaseController',[]).contr
                                 if (event.keyCode == 39) {
                                     block.x += block.blockSpeed;
                                     if (block.x >= canvas.width - block.width) {
-                                        continueAnimating = false;
-                                        alert("Completed with a score of " + score);
+                                        block.x = canvas.width - block.width;
                                     }
                                 } else if (event.keyCode == 37) {
                                     block.x -= block.blockSpeed;
                                     if (block.x <= 0) {
                                         block.x = 0;
                                     }
+                                }else if (event.keyCode == 40) {
+                                    block.y += block.blockSpeed;
+                                    if (block.y >= canvas.height - block.height) {
+                                        block.y = canvas.height - block.height;
+                                    }
+                                }else if (event.keyCode == 38) {
+                                    block.y -= block.blockSpeed;
+                                    if (block.y <= 0) {
+                                        block.y = 0;
+                                    }
                                 }
                             }
+
+                            function  getMousePos(canvas, evt) {
+                              var rect = canvas.getBoundingClientRect(), // abs. size of element
+                                  scaleX = canvas.width / rect.width,    // relationship bitmap vs. element for X
+                                  scaleY = canvas.height / rect.height;  // relationship bitmap vs. element for Y
+
+                              return {
+                                x: (evt.clientX - rect.left) * scaleX,   // scale mouse coordinates after they have
+                                y: (evt.clientY - rect.top) * scaleY     // been adjusted to be relative to element
+                              }
+                            }
+                            
                             document.onmousedown = function (e) {
-                                block.x = e.clientX - 10;
-                                block.y = e.clientY - 230;
+                                var pos= getMousePos(canvas,e);
+                                block.x = pos.x;
+                                block.y = pos.y;
                             }
 
                             function animate() {
@@ -233,7 +181,7 @@ var gameApp = angular.module('vidTApp.firstPhase.firstPhaseController',[]).contr
                                 ctx.fillStyle = "black";
                                 ctx.fillText("Score: " + score, 10, 15);
                             }
-                        }
+                        
                         var scaleFactor= 1;
                         window.addEventListener('resize',
                         function(evt) {
@@ -250,7 +198,7 @@ var gameApp = angular.module('vidTApp.firstPhase.firstPhaseController',[]).contr
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     $scope.gameOn = false;
-    $scope.menu = true;
+    $scope.menu = false;
     $scope.showVid = true;
     $scope.imgs =[];
 }]);
