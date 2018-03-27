@@ -28,16 +28,16 @@ var gameApp = angular.module('vidTApp.firstPhase.firstPhaseController',[]).contr
                             var counter = 30;
 
                             // game variables
-                            var startingScore = 50;
+                            var startingScore = 0;
                             var continueAnimating = false;
                             var score;
 
                             // block variables
                             var blockWidth = 40;
                             var blockHeight = 45;
-                            var blockSpeed = 10;
+                            var blockSpeed = 30;
                             var block = {
-                                x: 0,
+                                x: canvas.width - blockWidth,
                                 y: canvas.height - blockHeight,
                                 width: blockWidth,
                                 height: blockHeight,
@@ -66,7 +66,7 @@ var gameApp = angular.module('vidTApp.firstPhase.firstPhaseController',[]).contr
                             function resetRock(rock) {
                                 rock.x = Math.random() * (canvas.width - rockWidth);
                                 rock.y = 15 + Math.random() * 30;
-                                rock.speed = 0.2 + Math.random() * 0.5;
+                                rock.speed = 0.2 + Math.random() * 1;
                             }
                             document.onkeydown = function (event) {
                                 if (event.keyCode == 39) {
@@ -102,11 +102,23 @@ var gameApp = angular.module('vidTApp.firstPhase.firstPhaseController',[]).contr
                                 y: (evt.clientY - rect.top) * scaleY     // been adjusted to be relative to element
                               }
                             }
-                            
+
                             document.onmousedown = function (e) {
                                 var pos= getMousePos(canvas,e);
                                 block.x = pos.x;
                                 block.y = pos.y;
+                                if (block.x >= canvas.width - block.width) {
+                                        block.x = canvas.width - block.width;
+                                }
+                                if (block.x <= 0) {
+                                        block.x = 0;
+                                }
+                                if (block.y >= canvas.height - block.height) {
+                                        block.y = canvas.height - block.height;
+                                }
+                                if (block.y <= 0) {
+                                        block.y = 0;
+                                }
                             }
 
                             function animate() {
