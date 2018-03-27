@@ -25,7 +25,7 @@ var gameApp = angular.module('vidTApp.firstPhase.firstPhaseController',[]).contr
                         canvas.width = W;
                         canvas.height = H;
                             var ctx = canvas.getContext("2d");
-                            var counter = 30;
+                            var counter = 15;
 
                             // game variables
                             var startingScore = 0;
@@ -35,7 +35,7 @@ var gameApp = angular.module('vidTApp.firstPhase.firstPhaseController',[]).contr
                             // block variables
                             var blockWidth = 40;
                             var blockHeight = 45;
-                            var blockSpeed = 30;
+                            var blockSpeed = 100;
                             var block = {
                                 x: canvas.width - blockWidth,
                                 y: canvas.height - blockHeight,
@@ -154,13 +154,13 @@ var gameApp = angular.module('vidTApp.firstPhase.firstPhaseController',[]).contr
                                         span = document.getElementById("count");
                                         span.innerHTML = counter;
                                     }
-                                    if (counter === 0 && score < 1000) {
+                                    if (counter === 0 && score < 500) {
                                         alert('sorry, out of time');
                                         clearInterval(counter);
                                         continueAnimating = false;
                                         $scope.gameOn = false;
                                     }
-                                    if (counter === 0 && score >= 1000) {
+                                    if (counter === 0 && score >= 500) {
                                         alert('Winner...!!');
                                         clearInterval(counter);
                                         continueAnimating = false;
@@ -173,8 +173,8 @@ var gameApp = angular.module('vidTApp.firstPhase.firstPhaseController',[]).contr
 
                                 // clear the canvas
                                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                                var img = new Image;
-                                img.src = "assets/images/s3.png";
+                                img = new Image;
+                                img.src = "assets/images/q1.jpg";
                                 //img.onload = function(){
                                     ctx.drawImage(img, block.x, block.y, block.width, block.height);
                                  // }
